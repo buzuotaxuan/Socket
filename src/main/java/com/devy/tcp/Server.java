@@ -1,9 +1,11 @@
-package com.devy;
+package com.devy.tcp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.Inet4Address;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,9 +15,15 @@ import java.net.Socket;
  **/
 public class Server {
 
-      public static void main(String [] args) throws IOException {
-          ServerSocket serverSocket =new ServerSocket(2000);
+     private  static int capacity=64 * 1024 * 1024;
+     private static final int PORT = 20000;
 
+      public static void main(String [] args) throws IOException {
+          ServerSocket serverSocket =createServer();
+
+          initServer(serverSocket);
+
+          serverSocket.bind(new InetSocketAddress(Inet4Address.getLocalHost(),PORT),50);
           System.out.println("Server already started");
 
           System.out.println("Server info "+ serverSocket.getInetAddress() +"P"+serverSocket.getLocalPort() );
@@ -24,6 +32,19 @@ public class Server {
               Socket socket=serverSocket.accept();
               new ClientHandler(socket).start();
           }
+      }
+
+      private static ServerSocket createServer() throws IOException{
+          ServerSocket serverSocket=new ServerSocket();
+          return serverSocket;
+      }
+
+      private static void initServer(ServerSocket serverSocket) throws IOException{
+         serverSocket.setReuseAddress(true);
+
+         serverSocket.setReceiveBufferSize(capacity);
+
+         serverSocket.setPerformancePreferences(1,1,1);
       }
 
       public static class ClientHandler extends Thread{

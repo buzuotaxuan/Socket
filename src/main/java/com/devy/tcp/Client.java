@@ -1,4 +1,4 @@
-package com.devy;
+package com.devy.tcp;
 
 import java.io.*;
 import java.net.Inet4Address;
@@ -16,7 +16,7 @@ public class Client {
         try {
             socket.setSoTimeout(3000);
 
-            socket.connect(new InetSocketAddress(Inet4Address.getLocalHost(),2000),3000);
+            socket.connect(new InetSocketAddress(Inet4Address.getLocalHost(),20000),3000);
 
             todo(socket);
 
