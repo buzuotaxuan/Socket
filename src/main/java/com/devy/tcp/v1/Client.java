@@ -1,4 +1,4 @@
-package com.devy.tcp;
+package com.devy.tcp.v1;
 
 import java.io.*;
 import java.net.Inet4Address;

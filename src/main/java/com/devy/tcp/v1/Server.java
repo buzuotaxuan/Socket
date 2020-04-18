@@ -1,4 +1,4 @@
-package com.devy.tcp;
+package com.devy.tcp.v1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,7 +61,6 @@ public class Server {
 
               try {
                   PrintStream socketOutput =new PrintStream(socket.getOutputStream());
-
 
                   BufferedReader socketInput=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
