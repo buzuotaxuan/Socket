@@ -47,11 +47,27 @@ public class TCPServer implements ClientHandlerCallBack{
     @Override
     public void onSelfClosed(ClientHandler handler) {
         clientHandlerList.remove(handler);
+
+
     }
 
     @Override
     public void onNewMessageArrived(ClientHandler handler, String msg) {
-        System.out.println(msg);
+
+        System.out.println("Received-" + ":" + msg);
+        // 异步提交转发任务
+        fowardingThreadPoolExecutor.execute(() -> {
+            synchronized (TCPServer.this) {
+                for (ClientHandler clientHandler : clientHandlerList) {
+                    if (clientHandler.equals(handler)) {
+                        // 跳过自己
+                        continue;
+                    }
+                    // 对其他客户端发送消息
+                    clientHandler.send(msg);
+                }
+            }
+        });
     }
 
     @Override
