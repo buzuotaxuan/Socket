@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 /**
  * @author: Devy
@@ -49,16 +50,19 @@ public class TCPClient {
         boolean flag=true;
 
         do{
-            String str=bufferedReader.readLine();
+            try {
+                String str=bufferedReader.readLine();
 
-            printStream.println(str);
+                printStream.println(str);
 
-            String echo=socketBufferdReader.readLine();
+                String echo=socketBufferdReader.readLine();
 
-            if(echo.equalsIgnoreCase("bye")){
-                flag=false;
-            }else {
-                System.out.println(echo);
+                if(echo.equalsIgnoreCase("bye")){
+                    flag=false;
+                }else {
+                    System.out.println(echo);
+                }
+            } catch (SocketTimeoutException e) {
             }
 
         }while (flag);
