@@ -30,7 +30,6 @@ public class ClientWriteHandler {
     }
 
     public  void send(String msg){
-        System.out.println("-----");
         if(done){
             return;
         }
@@ -50,7 +49,6 @@ public class ClientWriteHandler {
             if(ClientWriteHandler.this.done){
                 return;
             }
-            System.out.println("++++++++++++++");
             byteBuffer.clear();
             byteBuffer.put(data.getBytes());
             byteBuffer.flip();
